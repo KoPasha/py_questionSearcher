@@ -1,7 +1,10 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, uic
+import questionSearchedCommands as qsc
 
 class SearcherGUI(QMainWindow):
+
+    search_data_set = []
 
     def __init__(self):
         super(SearcherGUI, self).__init__()
@@ -10,12 +13,19 @@ class SearcherGUI(QMainWindow):
         self.searchAgainButton.clicked.connect(self.search_button_clicked)
 
     def search_button_clicked(self):
-        pass
+        search_string = self.QLineEdit.text
+        result = qsc.search(search_string, self.search_data_set)
+        #operate result data to put it in the form fields
+        return result
+
+def get_data_for_search(search_string, dataset_for_search):
+    return qsc.read_dataset()
 
 def main():
     app = QApplication([])
     window =  SearcherGUI()
     app.exec_()
+    window.search_data_set = get_data_for_search()
 
 if __name__ == '__main__':
     main()

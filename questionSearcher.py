@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QFont
+import questionData
 
 def main():
     app = QApplication([])
