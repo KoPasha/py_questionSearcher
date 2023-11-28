@@ -1,3 +1,5 @@
+#data structure for question extractor/searcher
+import hashlib
 
 class answer:
     id: str
@@ -15,13 +17,34 @@ class answer:
         self.text = data['text']
         self.id = data['id']
 
+#for this we need to filter strings: no "one-letter-words", only words and numbers 
+#   words and numbers cannot be in the same word
+#   any separations are transformed to blanks
+def get_string_adopted_for_search(search_string):
+    result_string = ''
+    prev_char = ''
+    for curr_char in search_string.lower():
+        if curr_char.isdigit() != prev_char.isdigit():
+            result_string = result_string + ' '
+        if curr_char.isdigit() or curr_char.isalpha():
+            result_string = result_string + curr_char
+        else:
+            result_string = result_string + ' '
+        prev_char = curr_char
+    return ' '.join(result_string.split())#get rid of unneeded blanks
+
 class COK_question:
     id: str
     q_text: str
     prompt: str
     options: list
     correct_answer: answer
-    def __init__(self,id,q_text ='',prompt ='',options ='',correct_answer =''):
+    united_question_text: str
+    united_question_hash: str
+    united_question_text_for_search: str
+    def __str__(self) -> str:
+        return self.united_question_text
+    def __init__(self,id = '',q_text ='',prompt ='',options ='',correct_answer =''):
         self.id = ' '.join(id.split())
         self.q_text = ' '.join(q_text.split())
         self.prompt = ' '.join(prompt.split())
@@ -30,6 +53,15 @@ class COK_question:
             self.options = options
         else:
             self.options = []
+    def update_united_question_text(self):
+        answers_in_str = ''
+        for option in sorted(self.options,key=lambda x:x.text):
+            answers_in_str = f"{answers_in_str} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
+        text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
+        self.united_question_text = ' '.join(text_for_result.split()) 
+        #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
+        self.united_question_hash = hashlib.sha1(self.united_question_text.encode("utf-8")).hexdigest()
+        self.united_question_text_for_search = get_string_adopted_for_search(self.united_question_text)
     def clear_options(self):
         self.options.clear()
     def add_option(self,answer_id,answer_text):
@@ -55,6 +87,8 @@ class COK_question:
         #also options should be unreavealed from json list
         #self.options = [answer(x,y) for x,y in data.options]
         self.clear_options()
-        for cur_option in data.options:
+        for cur_option in data['options']:
             self.add_option(cur_option['id'],cur_option['text'])
+        self.update_united_question_text()
+        return self
 
