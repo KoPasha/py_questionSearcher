@@ -19,7 +19,10 @@ class SearcherGUI(QMainWindow):
     def search_button_clicked(self):
         search_string = self.QLineEdit.text
         results = qsc.search(search_string, self.search_data_set, self.search_index)
-        #operate result data to put it in the form fields
+        #operate result data to put it in the form fields of ListView object
+        for result in results:
+            #item = QtCore.
+            print(f'question: {result} \n')
         return results
 
 def main():
