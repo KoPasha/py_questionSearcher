@@ -70,7 +70,7 @@ def search(search_string, data_for_search, search_index):
         questions_found_now = find_question_by_word(cur_word, search_index)
         if questions_found_now != None:
             if questions_found != None:
-                questions_found.intersection(questions_found_now)
+                questions_found = questions_found.intersection(questions_found_now)
             else:
                 questions_found = set()
                 questions_found.update(questions_found_now)
@@ -131,8 +131,8 @@ def main():
     if len(sys.argv) > 1:
         search_string = ' '.join(sys.argv[1:])
     else:
-        search_string = 'контролеру содействие в реализации им контрольных'
-        print("You have to put one or more words as an argument to this program, or it will give you all the questions back ]:/)")
+        search_string = 'Федеральным законом «О рынке ценных бумаг» заключение гражданско-правовых сделок с эмиссионными ценными бумагами, влекущих переход прав собственности на ценные бумаги является'
+        print("You have to put one or more words as an argument to this program, or it woundn't give the questions back ]:/)")
     data_to_search_in = read_dataset()
     optimize_dataset(data_to_search_in)
     search_index = build_search_index(data_to_search_in)

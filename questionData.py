@@ -55,8 +55,8 @@ class COK_question:
             self.options = []
     def update_united_question_text(self):
         answers_in_str = ''
-        for option in sorted(self.options,key=lambda x:x.text):
-            answers_in_str = f"{answers_in_str} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
+        for count, option in enumerate(sorted(self.options,key=lambda x:x.text),1):
+            answers_in_str = f"{answers_in_str} {count} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
         text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
         self.united_question_text = ' '.join(text_for_result.split()) 
         #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
