@@ -42,6 +42,7 @@ class COK_question:
     united_question_text: str
     united_question_hash: str
     united_question_text_for_search: str
+    united_question_text_for_print: str
     def __str__(self) -> str:
         return self.united_question_text
     def __init__(self,id = '',q_text ='',prompt ='',options ='',correct_answer =''):
@@ -55,13 +56,18 @@ class COK_question:
             self.options = []
     def update_united_question_text(self):
         answers_in_str = ''
+        answers_in_str_for_print = ''
+        separator = ''#all answer strings but first need to be on the next line
         for count, option in enumerate(sorted(self.options,key=lambda x:x.text),1):
             answers_in_str = f"{answers_in_str} {count} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
+            answers_in_str_for_print = f"{answers_in_str_for_print}{separator}{count}: {option.text}"
+            separator = '\n'#all answer strings but first need to be on the next line
         text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
         self.united_question_text = ' '.join(text_for_result.split()) 
         self.united_question_text_for_search = get_string_adopted_for_search(self.united_question_text)
         #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
         self.united_question_hash = hashlib.sha1(self.united_question_text_for_search.encode("utf-8")).hexdigest()
+        self.united_question_text_for_print = f"{self.q_text}\n{self.prompt}\n{answers_in_str_for_print}\n\n{self.correct_answer}"
     def clear_options(self):
         self.options.clear()
     def add_option(self,answer_id,answer_text):
