@@ -26,7 +26,8 @@ def read_json_datafiles(path, data_structure):
                 print(f'upper level error while reading json file, so problem with a file: {e}')
     elif os.path.isdir(path):
         for cur_file in os.scandir(path):
-            read_json_datafiles(cur_file.path, data_structure)
+            if os.path.basename(cur_file.path)[0] != '.':
+                read_json_datafiles(cur_file.path, data_structure)
 
 def read_dataset():
     result = []
@@ -43,12 +44,12 @@ def find_question_by_word(cur_word, search_index, create_if_not_found = False, i
                 search_index_next_nest = dict()
                 search_index_current_nest[cur_letter] = search_index_next_nest
             else:
-                return True
+                return None
         search_index_current_nest = search_index_next_nest
     #so here is the moment were we reached the bottom of the tree
     # and we axpect to find a LIST of indexes of question with this word
     que_list = search_index_current_nest.get('questions')
-    if que_list ==None:
+    if que_list == None:
         if create_if_not_found:
             que_list = [index_if_create]
             search_index_current_nest['questions'] = que_list
@@ -74,8 +75,9 @@ def search(search_string, data_for_search, search_index):
             else:
                 questions_found = set()
                 questions_found.update(questions_found_now)
-    for cur_question_index in questions_found:
-        results.append(data_for_search[cur_question_index])
+    if questions_found != None:#in case no found question for every word in a search
+        for cur_question_index in questions_found:
+            results.append(data_for_search[cur_question_index])
     return results
 
 def build_search_index(data_to_search):

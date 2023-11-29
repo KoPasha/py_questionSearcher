@@ -59,9 +59,9 @@ class COK_question:
             answers_in_str = f"{answers_in_str} {count} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
         text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
         self.united_question_text = ' '.join(text_for_result.split()) 
-        #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
-        self.united_question_hash = hashlib.sha1(self.united_question_text.encode("utf-8")).hexdigest()
         self.united_question_text_for_search = get_string_adopted_for_search(self.united_question_text)
+        #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
+        self.united_question_hash = hashlib.sha1(self.united_question_text_for_search.encode("utf-8")).hexdigest()
     def clear_options(self):
         self.options.clear()
     def add_option(self,answer_id,answer_text):
