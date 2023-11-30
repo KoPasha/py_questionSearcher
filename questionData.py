@@ -20,7 +20,7 @@ class answer:
 #for this we need to filter strings: no "one-letter-words", only words and numbers 
 #   words and numbers cannot be in the same word
 #   any separations are transformed to blanks
-def get_string_adopted_for_search(search_string):
+def get_string_adopted_for_search(search_string,is_query = False):
     result_string = ''
     prev_char = ''
     for curr_char in search_string.lower():
@@ -28,10 +28,12 @@ def get_string_adopted_for_search(search_string):
             result_string = result_string + ' '
         if curr_char.isdigit() or curr_char.isalpha():
             result_string = result_string + curr_char
+        if (curr_char == '*') and is_query:
+            result_string = result_string + curr_char
         else:
             result_string = result_string + ' '
         prev_char = curr_char
-    return ' '.join(result_string.split())#get rid of unneeded blanks
+    return ' '.join(result_string.split())#get rid of unnecessary blanks
 
 class COK_question:
     id: str
