@@ -19,3 +19,9 @@ The right way to start program in a default way is in commmand line:
 
 **python .\questionExtractor.py**
 
+ps:
+to make an executable use:
+pyinstaller --onefile questionExtractor.py
+pyinstaller --onefile questionSearcherUICbyScheme.py
+
+with a questionSearcherUICbyScheme.py you also have to put searcherMainWindow.ui file in the same folder
