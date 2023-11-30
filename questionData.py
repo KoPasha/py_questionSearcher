@@ -66,7 +66,9 @@ class COK_question:
             separator = '\n'#all answer strings but first need to be on the next line
         text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
         self.united_question_text = ' '.join(text_for_result.split()) 
-        self.united_question_text_for_search = get_string_adopted_for_search(self.united_question_text)
+        text_for_search = f"{self.q_text} {answers_in_str} {self.correct_answer}"
+        text_for_search = ' '.join(text_for_search.split()) 
+        self.united_question_text_for_search = get_string_adopted_for_search(text_for_search)
         #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
         self.united_question_hash = hashlib.sha1(self.united_question_text_for_search.encode("utf-8")).hexdigest()
         self.united_question_text_for_print = f"{self.q_text}\n{self.prompt}\n{answers_in_str_for_print}\n\n{self.correct_answer}"
