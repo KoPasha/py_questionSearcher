@@ -39,6 +39,7 @@ class COK_question:
     id: str
     q_text: str
     prompt: str
+    source: str
     options: list
     correct_answer: answer
     united_question_text: str
@@ -47,7 +48,7 @@ class COK_question:
     united_question_text_for_print: str
     def __str__(self) -> str:
         return self.united_question_text
-    def __init__(self,id = '',q_text ='',prompt ='',options ='',correct_answer =''):
+    def __init__(self,id = '',q_text ='',prompt ='',options ='',correct_answer ='',source =''):
         self.id = ' '.join(id.split())
         self.q_text = ' '.join(q_text.split())
         self.prompt = ' '.join(prompt.split())
@@ -56,6 +57,7 @@ class COK_question:
             self.options = options
         else:
             self.options = []
+        self.source = source
     def update_united_question_text(self):
         answers_in_str = ''
         answers_in_str_for_print = ''
@@ -71,7 +73,7 @@ class COK_question:
         self.united_question_text_for_search = get_string_adopted_for_search(text_for_search)
         #self.united_question_hash = hashlib.md5(self.united_question_text.encode("utf-8")).hexdigest()
         self.united_question_hash = hashlib.sha1(self.united_question_text_for_search.encode("utf-8")).hexdigest()
-        self.united_question_text_for_print = f"{self.q_text}\n{self.prompt}\n{answers_in_str_for_print}\n\n{self.correct_answer}"
+        self.united_question_text_for_print = f"{self.q_text}\n{self.prompt}\n{answers_in_str_for_print}\n\n{self.correct_answer}\n\n{self.source}"
     def clear_options(self):
         self.options.clear()
     def add_option(self,answer_id,answer_text):

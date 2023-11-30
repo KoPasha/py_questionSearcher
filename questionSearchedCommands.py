@@ -6,10 +6,10 @@ import json
 import questionData
 import datetime
 
-def load_json_data_to_COK_data_structure(json_data, COK_data):
+def load_json_data_to_COK_data_structure(json_data, COK_data, source):
     for cur_json in json_data:
         try:
-            cur_COK = questionData.COK_question().data_from_json(cur_json)
+            cur_COK = questionData.COK_question(source=source).data_from_json(cur_json)
             COK_data.append(cur_COK)
         except Exception as e:
             print(f'error while reading json file, so problem is within the file: {e}')
@@ -21,7 +21,7 @@ def read_json_datafiles(path, data_structure):
                 #read data structure from path
                 with open(path,'r') as f:
                     current_json = json.load(f)
-                    load_json_data_to_COK_data_structure(current_json, data_structure)
+                    load_json_data_to_COK_data_structure(current_json, data_structure, source=os.path.basename(path))
             except Exception as e:
                 print(f'upper level error while reading json file, so problem with a file: {e}')
     elif os.path.isdir(path):
