@@ -60,8 +60,8 @@ class COK_question:
         answers_in_str = ''
         answers_in_str_for_print = ''
         separator = ''#all answer strings but first need to be on the next line
-        for count, option in enumerate(sorted(self.options,key=lambda x:x.text),1):
-            answers_in_str = f"{answers_in_str} {count} {option.text}"#f"{answers_in_str} {option.id} {option.text}"
+        for count, option in enumerate(sorted(self.options,key=lambda x:get_string_adopted_for_search(x.text)),1):
+            answers_in_str = f"{answers_in_str} {count} {get_string_adopted_for_search(option.text)}"#f"{answers_in_str} {option.id} {option.text}"
             answers_in_str_for_print = f"{answers_in_str_for_print}{separator}{count}: {option.text}"
             separator = '\n'#all answer strings but first need to be on the next line
         text_for_result = f"{self.q_text} {self.prompt} {answers_in_str} {self.correct_answer}"
