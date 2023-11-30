@@ -24,12 +24,12 @@ def get_string_adopted_for_search(search_string,is_query = False):
     result_string = ''
     prev_char = ''
     for curr_char in search_string.lower():
-        if curr_char.isdigit() != prev_char.isdigit():
+        if curr_char.isdigit() != prev_char.isdigit():#all times when digits comes right next to letter, they must be separated by blank
             result_string = result_string + ' '
         if curr_char.isdigit() or curr_char.isalpha():
             result_string = result_string + curr_char
-        if (curr_char == '*') and is_query:
-            result_string = result_string + curr_char
+        elif (curr_char == '*') and is_query:#asterisk is a special char, and its always comes last in a word (only for query strings, data strings get asterisks as blanks)
+            result_string = f'{result_string}{curr_char} '
         else:
             result_string = result_string + ' '
         prev_char = curr_char
