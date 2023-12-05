@@ -25,3 +25,6 @@ pyinstaller --onefile questionExtractor.py
 pyinstaller --onefile queFind.py
 
 with a questionSearcherUICbyScheme.py you also have to put searcherMainWindow.ui file in the same folder
+
+to start a queFind without console window:
+pythonw .\queFind.py
